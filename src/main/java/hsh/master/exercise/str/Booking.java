@@ -8,12 +8,18 @@ import java.util.UUID;
  */
 public class Booking {
 
+
     private UUID id;
     private int bookedSeats;
+    private Customer c;
+    private Event e;
 
-    public Booking(UUID id, int bookedSeats) {
-        this.id = id;
+    public Booking(int bookedSeats, Customer c, Event e) {
+        this.id = UUID.randomUUID();
         this.bookedSeats = bookedSeats;
+        this.c = c;
+        this.e = e;
+        System.out.println("Created new Booking");
     }
 
     public UUID getId() {
@@ -22,5 +28,13 @@ public class Booking {
 
     public int getBookedSeats() {
         return bookedSeats;
+    }
+
+    public Customer getCustomer() {
+        return c;
+    }
+
+    public Event getEvent() {
+        return e;
     }
 }

@@ -3,7 +3,7 @@ package hsh.master.exercise.str;
 /**
  * Created by Maren on 22.12.2016.
  */
-public class Adress {
+public class Address {
 
     private String country; //should be in the format "de", "us" etc.
     private String city;
@@ -11,7 +11,7 @@ public class Adress {
     private String street;
     private int housenumber;
 
-    public Adress(String country, String city, int zipcode, String street, int housenumber) {
+    public Address(String country, String city, int zipcode, String street, int housenumber) {
         this.country = country;
         this.city = city;
         this.zipcode = zipcode;

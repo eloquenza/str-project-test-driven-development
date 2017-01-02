@@ -6,18 +6,22 @@ package hsh.master.exercise.str;
 public class Customer {
 
     private String name;
-    private Adress adress;
+    private Address address;
 
-    public Customer(String name, Adress adress) {
+
+    public Customer(String name, Address address) {
         this.name = name;
-        this.adress = adress;
+        this.address = address;
     }
 
     public String getName() {
         return name;
     }
 
-    public Adress getAdress() {
-        return adress;
+    public Address getAddress() {
+        return address;
     }
+
+
+
 }
