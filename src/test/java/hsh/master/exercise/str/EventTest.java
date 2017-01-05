@@ -1,5 +1,6 @@
 package hsh.master.exercise.str;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -9,15 +10,31 @@ import static org.junit.Assert.assertEquals;
 
 public class EventTest {
 
+    LocalDateTime testdate;
+
+    @Before
+    public void init() {
+        testdate = LocalDateTime.of(2016, Month.DECEMBER, 24, 23, 23, 23);
+    }
+
     @Test
     public void shouldInstantiateEvent() {
-        Event e = new Event();
+        Event e = new Event("concert1", testdate, 20.00, 100);
     }
 
     @Test
     public void eventShouldHaveID() {
         LocalDateTime testdate = LocalDateTime.of(2016, Month.DECEMBER, 24, 23, 23, 23);
-        Event e = new Event(1, "test", testdate, 10.00, 100);
-        assertEquals("Must have an valid id", e.getId(), 1);
+        Event e = new Event("test", testdate, 10.00, 100);
+        //TODO
+        assertEquals(e.getDateAndTime(), testdate);
+    }
+
+    @Test
+    public void shouldReduceAvailableSeats() {
+        Event e = new Event("test", testdate, 10.00, 100);
+        e.reduceAvailableSeats(10);
+
+        assertEquals(90, e.getAvailableSeats());
     }
 }
