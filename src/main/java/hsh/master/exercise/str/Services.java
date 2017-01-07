@@ -4,6 +4,8 @@ import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -11,14 +13,23 @@ import java.util.UUID;
  */
 public class Services {
 
-    private ArrayList<Customer> customers = new ArrayList<>();
-    private ArrayList<Event> events = new ArrayList<>();
-    CustomerFactory customerf = new CustomerFactory();
+    private Map<Customer, Map<Event, Booking>> bookingMap;
+    private ArrayList<Customer> customers;
+    private ArrayList<Event> events;
+    CustomerFactory customerf;
+
+    public Services() {
+        bookingMap = new HashMap<>();
+        customers = new ArrayList<>();
+        events = new ArrayList<>();
+        customerf = new CustomerFactory();
+    }
 
     public Customer createNewCustomer(String name, Address address) {
         Customer c = customerf.createCustomer(name, address);
         if(c != null) {
             customers.add(c);
+            bookingMap.put(c, new HashMap<>());
             System.out.println("Customer was added to the list");
         }
         return c;
@@ -34,7 +45,10 @@ public class Services {
 
     public Booking createNewBooking(Customer c, Event e, int bookedSeats) throws NotEnoughSeatsException {
         e.reduceAvailableSeats(bookedSeats);
-        return new Booking(bookedSeats, c, e);
+        Booking b = new Booking(bookedSeats, c, e);
+        Map<Event, Booking> customerBookingMap = bookingMap.get(c);
+        customerBookingMap.put(e, b);
+        return b;
     }
 
     public ArrayList<Event> listAllEvents() {
@@ -55,7 +69,12 @@ public class Services {
         return customers;
     }
 
-    public void bookAEvent(Customer c, Event e, int bookedSeats) throws NotEnoughSeatsException {
+    public Booking bookAEvent(Customer c, Event e, int bookedSeats) throws NotEnoughSeatsException {
         Booking b = createNewBooking(c, e, bookedSeats);
+        return b;
+    }
+
+    public Booking getBooking(Customer c, Event e) {
+        return bookingMap.get(c).get(e);
     }
 }
