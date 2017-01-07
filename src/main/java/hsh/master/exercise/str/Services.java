@@ -52,11 +52,4 @@ public class Services {
         e.reduceAvailableSeats(bookedSeats);
         return new Booking(bookedSeats, c, e);
     }
-
-
-
-
-
-
-
 }
