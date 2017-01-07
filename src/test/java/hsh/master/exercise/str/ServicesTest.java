@@ -7,6 +7,7 @@ import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -16,27 +17,41 @@ import static org.junit.Assert.*;
 public class ServicesTest {
 
     private Services service;
-    private LocalDateTime testdate;
+
     private Address address;
+    private String cName;
+    private Customer c;
+
+    private String eName;
+    private int eSeats;
+    private double ePrice;
+    private Event e;
+    private LocalDateTime testdate;
+
 
     @Before
     public void init() {
         service = new Services();
-        testdate = LocalDateTime.of(2016, Month.DECEMBER, 24, 23, 23, 23);
+
         address = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
+        cName = "Jane Doe";
+        c = service.createNewCustomer(cName, address);
+
+        testdate = LocalDateTime.of(2016, Month.DECEMBER, 24, 23, 23, 23);
+        eName = "Testevent";
+        eSeats = 100;
+        ePrice = 10.00;
+        e = service.createNewEvent(eName, testdate, ePrice, eSeats);
     }
 
     @Test
     public void shouldCreateNewCustomer() {
-        Customer c = service.createNewCustomer("Maren", address);
-
-        assertEquals("Maren", c.getName());
+        assertEquals(cName, c.getName());
         assertEquals(address, c.getAddress());
     }
 
     @Test
     public void shouldCreateNewEvent() {
-        Event e = service.createNewEvent("test", testdate, 10.00, 100);
         assertEquals(10.00, e.getPrice(), 0);
     }
 
@@ -46,69 +61,52 @@ public class ServicesTest {
         Event e2 = service.createNewEvent("Konzert2", testdate, 15, 50);
         Event e3 = service.createNewEvent("Konzert3", testdate, 10.5, 52);
 
-        ArrayList<Event> testevents = new ArrayList<>();
-        testevents.add(e1);
-        testevents.add(e2);
-        testevents.add(e3);
+        ArrayList<Event> testevents = new ArrayList<>(Arrays.asList(e, e1, e2, e3));
 
         assertEquals(testevents, service.listAllEvents());
     }
 
     @Test
     public void shouldGetAvailableSeatsForAEvent() {
-        Event e = service.createNewEvent("test", testdate, 10.00, 100);
-
         assertEquals(100, service.getAvailableSeatsForAEvent(e));
     }
 
     @Test
-    public void shouldListALlCustomers() {
+    public void shouldListAllCustomers() {
         Customer c1 = service.createNewCustomer("Maren", address);
         Customer c2 = service.createNewCustomer("Dennis", address);
         Customer c3 = service.createNewCustomer("Dino", address);
 
-        ArrayList<Customer> testcustomers= new ArrayList<>();
-        testcustomers.add(c1);
-        testcustomers.add(c2);
-        testcustomers.add(c3);
+        ArrayList<Customer> testcustomers= new ArrayList<>(Arrays.asList(c, c1, c2, c3));
 
         assertEquals(testcustomers, service.listAllCustomers());
     }
 
     @Test
     public void shouldCreateBooking() {
-        Customer c = service.createNewCustomer("Maren", address);
-        Event e = service.createNewEvent("test", testdate, 10.00, 100);
-        service.bookAEvent(c, e, 5);
-        assertEquals(95, e.getAvailableSeats());
+        int seatsToBook = eSeats - 5;
+        service.bookAEvent(c, e, seatsToBook);
+        assertEquals(eSeats - seatsToBook, e.getAvailableSeats());
     }
 
     @Test(expected = NotEnoughSeatsException.class)
     public void userCannotBookMoreSeatsThanAvailable() {
-        Customer c = service.createNewCustomer("Maren", address);
-        Event e = service.createNewEvent("test", testdate, 10.00, 4);
-        service.bookAEvent(c, e, 5);
+        service.bookAEvent(c, e, eSeats+1);
     }
 
     @Test
     public void shouldFindBookingForSpecificUserAndEvent() {
-        Customer c = service.createNewCustomer("Maren", address);
-        Event e = service.createNewEvent("test", testdate, 10.00, 100);
         Booking b = service.bookAEvent(c, e, 5);
         assertEquals(service.getBooking(c, e), b);
     }
 
     @Test
     public void shouldNotFindBookingIfUserDidNotBookForSpecificEvent() {
-        Customer c = service.createNewCustomer("Maren", address);
-        Event e = service.createNewEvent("test", testdate, 10.00, 100);
         assertEquals(service.getBooking(c, e), null);
     }
 
     @Test
     public void bookingIsMergedWhenUserCreatesNewBookingForSameEvent() {
-        Customer c = service.createNewCustomer("Maren", address);
-        Event e = service.createNewEvent("test", testdate, 10.00, 100);
         Booking b1 = service.bookAEvent(c, e, 5);
         Booking b2 = service.bookAEvent(c, e, 10);
         Booking saved = service.getBooking(c, e);
