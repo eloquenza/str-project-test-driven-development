@@ -1,6 +1,7 @@
 package hsh.master.exercise.str;
 
 import org.junit.Test;
+import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -73,6 +74,12 @@ public class ServicesTest {
         Event e = service.createNewEvent("test", testdate, 10.00, 100);
         service.bookAEvent(c, e, 5);
         assertEquals(95, e.getAvailableSeats());
+    }
 
+    @Test(expected = NotEnoughSeatsException.class)
+    public void userCannotBookMoreSeatsThanAvailable() {
+        Customer c = service.createNewCustomer("Maren", address);
+        Event e = service.createNewEvent("test", testdate, 10.00, 4);
+        service.bookAEvent(c, e, 5);
     }
 }

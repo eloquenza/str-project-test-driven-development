@@ -1,5 +1,7 @@
 package hsh.master.exercise.str;
 
+import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -44,8 +46,8 @@ public class Event {
     }
 
     public void reduceAvailableSeats(int r) {
-        if (availableSeats - r <= 0) {
-            availableSeats = 0;
+        if (availableSeats - r < 0) {
+            throw new NotEnoughSeatsException(availableSeats, r);
         } else {
             availableSeats = availableSeats - r;
         }
