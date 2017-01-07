@@ -1,5 +1,6 @@
 package hsh.master.exercise.str;
 
+import org.junit.Before;
 import org.junit.Test;
 import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
 
@@ -14,10 +15,16 @@ import static org.junit.Assert.*;
  */
 public class ServicesTest {
 
-    private Services service = new Services();
-    LocalDateTime testdate = LocalDateTime.of(2016, Month.DECEMBER, 24, 23, 23, 23);
-    Address address = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
+    private Services service;
+    private LocalDateTime testdate;
+    private Address address;
 
+    @Before
+    public void init() {
+        service = new Services();
+        testdate = LocalDateTime.of(2016, Month.DECEMBER, 24, 23, 23, 23);
+        address = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
+    }
 
     @Test
     public void shouldCreateNewCustomer() {
@@ -81,5 +88,20 @@ public class ServicesTest {
         Customer c = service.createNewCustomer("Maren", address);
         Event e = service.createNewEvent("test", testdate, 10.00, 4);
         service.bookAEvent(c, e, 5);
+    }
+
+    @Test
+    public void shouldFindBookingForSpecificUserAndEvent() {
+        Customer c = service.createNewCustomer("Maren", address);
+        Event e = service.createNewEvent("test", testdate, 10.00, 100);
+        Booking b = service.bookAEvent(c, e, 5);
+        assertEquals(service.getBooking(c, e), b);
+    }
+
+    @Test
+    public void shouldNotFindBookingIfUserDidNotBookForSpecificEvent() {
+        Customer c = service.createNewCustomer("Maren", address);
+        Event e = service.createNewEvent("test", testdate, 10.00, 100);
+        assertEquals(service.getBooking(c, e), null);
     }
 }

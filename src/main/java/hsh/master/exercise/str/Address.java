@@ -1,5 +1,7 @@
 package hsh.master.exercise.str;
 
+import java.util.Objects;
+
 /**
  * Created by Maren on 22.12.2016.
  */
@@ -37,5 +39,22 @@ public class Address {
 
     public int getHousenumber() {
         return housenumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return getZipcode() == address.getZipcode() &&
+                getHousenumber() == address.getHousenumber() &&
+                Objects.equals(getCountry(), address.getCountry()) &&
+                Objects.equals(getCity(), address.getCity()) &&
+                Objects.equals(getStreet(), address.getStreet());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCountry(), getCity(), getZipcode(), getStreet(), getHousenumber());
     }
 }

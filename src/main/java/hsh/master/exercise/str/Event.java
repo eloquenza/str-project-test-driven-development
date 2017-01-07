@@ -3,6 +3,7 @@ package hsh.master.exercise.str;
 import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -51,5 +52,20 @@ public class Event {
         } else {
             availableSeats = availableSeats - r;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(getId(), event.getId()) &&
+                Objects.equals(getTitle(), event.getTitle()) &&
+                Objects.equals(getDateAndTime(), event.getDateAndTime());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTitle(), getDateAndTime());
     }
 }
