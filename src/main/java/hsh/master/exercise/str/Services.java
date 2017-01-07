@@ -45,8 +45,12 @@ public class Services {
 
     public Booking createNewBooking(Customer c, Event e, int bookedSeats) throws NotEnoughSeatsException {
         e.reduceAvailableSeats(bookedSeats);
-        Booking b = new Booking(bookedSeats, c, e);
         Map<Event, Booking> customerBookingMap = bookingMap.get(c);
+        if (customerBookingMap.containsKey(e)) {
+            int previouslyBookedSeats = customerBookingMap.get(e).getBookedSeats();
+            bookedSeats += previouslyBookedSeats;
+        }
+        Booking b = new Booking(bookedSeats, c, e);
         customerBookingMap.put(e, b);
         return b;
     }

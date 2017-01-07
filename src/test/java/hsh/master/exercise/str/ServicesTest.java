@@ -104,4 +104,16 @@ public class ServicesTest {
         Event e = service.createNewEvent("test", testdate, 10.00, 100);
         assertEquals(service.getBooking(c, e), null);
     }
+
+    @Test
+    public void bookingIsMergedWhenUserCreatesNewBookingForSameEvent() {
+        Customer c = service.createNewCustomer("Maren", address);
+        Event e = service.createNewEvent("test", testdate, 10.00, 100);
+        Booking b1 = service.bookAEvent(c, e, 5);
+        Booking b2 = service.bookAEvent(c, e, 10);
+        Booking saved = service.getBooking(c, e);
+        assertEquals(15, saved.getBookedSeats());
+        assertNotEquals(b1.getId(), b2.getId());
+        assertEquals(b2.getId(), saved.getId());
+    }
 }
