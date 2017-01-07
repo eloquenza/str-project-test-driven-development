@@ -5,10 +5,14 @@ import hsh.master.exercise.str.entities.Booking;
 import hsh.master.exercise.str.entities.Customer;
 import hsh.master.exercise.str.entities.Event;
 import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
+import hsh.master.exercise.str.manager.BookingManager;
+import hsh.master.exercise.str.manager.CustomerManager;
+import hsh.master.exercise.str.manager.EventManager;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,64 +20,42 @@ import java.util.Map;
  */
 public class Services {
 
-    private Map<Customer, Map<Event, Booking>> bookingMap;
-    private ArrayList<Customer> customers;
-    private ArrayList<Event> events;
-    CustomerFactory customerf;
+    CustomerManager cm;
+    EventManager em;
+    BookingManager bm;
 
     public Services() {
-        bookingMap = new HashMap<>();
-        customers = new ArrayList<>();
-        events = new ArrayList<>();
-        customerf = new CustomerFactory();
+        cm = new CustomerManager();
+        em = new EventManager();
+        bm = new BookingManager();
     }
 
     public Customer createNewCustomer(String name, Address address) {
-        Customer c = customerf.createCustomer(name, address);
+        Customer c = cm.createCustomer(name, address);
         if(c != null) {
-            customers.add(c);
-            bookingMap.put(c, new HashMap<>());
-            System.out.println("Customer was added to the list");
+            bm.manageCustomerInMap(c);
         }
         return c;
     }
 
     public Event createNewEvent(String title, LocalDateTime dateAndTime, double price, int availableSeats) {
-        Event e = new Event(title, dateAndTime, price, availableSeats);
-        events.add(e);
-        System.out.println("Event was added to the list");
-
-        return e;
+        return em.createEvent(title, dateAndTime, price, availableSeats);
     }
 
     public Booking createNewBooking(Customer c, Event e, int bookedSeats) throws NotEnoughSeatsException {
-        e.reduceAvailableSeats(bookedSeats);
-        Map<Event, Booking> customerBookingMap = bookingMap.get(c);
-        if (customerBookingMap.containsKey(e)) {
-            int previouslyBookedSeats = customerBookingMap.get(e).getBookedSeats();
-            bookedSeats += previouslyBookedSeats;
-        }
-        Booking b = new Booking(bookedSeats, c, e);
-        customerBookingMap.put(e, b);
-        return b;
+        return bm.createBooking(c, e, bookedSeats);
     }
 
-    public ArrayList<Event> listAllEvents() {
-        for(Event e : events) {
-            System.out.println(e.getTitle());
-        }
-        return events;
+    public List<Event> listAllEvents() {
+        return em.getEvents();
     }
 
     public int getAvailableSeatsForAEvent(Event e) {
         return e.getAvailableSeats();
     }
 
-    public ArrayList<Customer> listAllCustomers() {
-        for(Customer c : customers) {
-            System.out.println(c.getName());
-        }
-        return customers;
+    public List<Customer> listAllCustomers() {
+        return cm.getCustomers();
     }
 
     public Booking bookAEvent(Customer c, Event e, int bookedSeats) throws NotEnoughSeatsException {
@@ -82,6 +64,18 @@ public class Services {
     }
 
     public Booking getBooking(Customer c, Event e) {
-        return bookingMap.get(c).get(e);
+        return bm.getBookingsForCustomer(c).get(e);
+    }
+
+    public void persistAllEntities() {
+        bm.persist();
+        cm.persist();
+        em.persist();
+    }
+
+    public void loadAllEntities() {
+        bm.load();
+        cm.load();
+        em.load();
     }
 }

@@ -118,4 +118,15 @@ public class ServicesTest {
         assertNotEquals(b1.getId(), b2.getId());
         assertEquals(b2.getId(), saved.getId());
     }
+
+    @Test
+    public void entitiesShouldBePersisted() {
+        Booking b = service.bookAEvent(c, e, 5);
+        service.persistAllEntities();
+    }
+
+    @Test
+    public void entitiesCanBeReloaded() {
+        service.loadAllEntities();
+    }
 }
