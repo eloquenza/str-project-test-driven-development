@@ -3,6 +3,8 @@
  */
 package hsh.master.exercise.str;
 
+import hsh.master.exercise.str.entities.Address;
+import hsh.master.exercise.str.entities.Customer;
 import org.junit.Before;
 import org.junit.Test;
 

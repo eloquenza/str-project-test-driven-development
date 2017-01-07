@@ -1,5 +1,9 @@
 package hsh.master.exercise.str;
 
+import hsh.master.exercise.str.entities.Address;
+import hsh.master.exercise.str.entities.Booking;
+import hsh.master.exercise.str.entities.Customer;
+import hsh.master.exercise.str.entities.Event;
 import org.junit.Before;
 import org.junit.Test;
 import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;

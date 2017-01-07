@@ -1,11 +1,12 @@
 /**
  * Created by Maren on 22.12.2016.
  */
-package hsh.master.exercise.str;
+package hsh.master.exercise.str.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Customer {
+public class Customer implements Serializable {
 
     private String name;
     private Address address;

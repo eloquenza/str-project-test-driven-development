@@ -1,7 +1,8 @@
-package hsh.master.exercise.str;
+package hsh.master.exercise.str.entities;
 
 import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import java.util.UUID;
 /**
  * Created by Dennis on 24.12.2016.
  */
-public class Event {
+public class Event implements Serializable {
 
     private UUID id;
     private String title;

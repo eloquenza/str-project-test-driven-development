@@ -1,12 +1,13 @@
-package hsh.master.exercise.str;
+package hsh.master.exercise.str.entities;
 
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by Maren on 22.12.2016.
  */
-public class Booking {
+public class Booking implements Serializable {
 
 
     private UUID id;

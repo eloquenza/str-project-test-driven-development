@@ -1,12 +1,15 @@
 package hsh.master.exercise.str;
 
+import hsh.master.exercise.str.entities.Address;
+import hsh.master.exercise.str.entities.Booking;
+import hsh.master.exercise.str.entities.Customer;
+import hsh.master.exercise.str.entities.Event;
 import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Created by Maren on 23.12.2016.

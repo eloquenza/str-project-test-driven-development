@@ -1,11 +1,14 @@
 package hsh.master.exercise.str;
 
+import hsh.master.exercise.str.entities.Address;
+import hsh.master.exercise.str.entities.Booking;
+import hsh.master.exercise.str.entities.Customer;
+import hsh.master.exercise.str.entities.Event;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.UUID;
 
 import static org.junit.Assert.*;
 

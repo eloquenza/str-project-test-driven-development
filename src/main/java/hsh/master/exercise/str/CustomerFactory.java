@@ -1,5 +1,8 @@
 package hsh.master.exercise.str;
 
+import hsh.master.exercise.str.entities.Address;
+import hsh.master.exercise.str.entities.Customer;
+
 import java.util.HashSet;
 import java.util.Set;
 
