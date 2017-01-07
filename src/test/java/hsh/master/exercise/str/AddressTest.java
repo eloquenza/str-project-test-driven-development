@@ -1,5 +1,6 @@
 package hsh.master.exercise.str;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -9,38 +10,50 @@ import static org.junit.Assert.*;
  */
 public class AddressTest {
 
+    private Address a;
+    private String country;
+    private String city;
+    private int zipcode;
+    private String street;
+    private int housenumber;
+
+    @Before
+    public void init() {
+        country = "DE";
+        city = "Hannover";
+        street = "Ricklinger Stadtweg";
+        housenumber = 120;
+        zipcode = 30159;
+        a = new Address(country, city, zipcode, street, housenumber);
+    }
+
     @Test
     public void shouldInstantiateAdress() {
-        Address a = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
+        // init does it all
     }
 
     @Test
     public void AdressShouldHaveCountry() {
-        Address a = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
-        assertEquals("de", a.getCountry());
+        assertEquals(country, a.getCountry());
     }
 
     @Test
     public void AdressShouldHaveCity() {
-        Address a = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
-        assertEquals("hannover", a.getCity(), 0);
+        assertEquals(city, a.getCity());
     }
 
     @Test
-    public void AdressShouldHavZipcode() {
-        Address a = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
-        assertEquals(30459, a.getZipcode(), 0);
+    public void AdressShouldHaveZipcode() {
+        assertEquals(zipcode, a.getZipcode(), 0);
     }
 
     @Test
-    public void AdressShouldHavStreet() {
-        Address a = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
-        assertEquals("Ricklinger Stadtweg", a.getStreet(), 0);
+    public void AdressShouldHaveStreet() {
+        assertEquals(street, a.getStreet());
     }
 
     @Test
-    public void AdressShouldHavHousenumber() {
-        Address a = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
-        assertEquals(120, a.getHousenumber(), 0);
+    public void AdressShouldHaveHousenumber() {
+        assertEquals(housenumber, a.getHousenumber(), 0);
     }
 }

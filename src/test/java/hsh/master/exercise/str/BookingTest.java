@@ -1,5 +1,6 @@
 package hsh.master.exercise.str;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -13,33 +14,40 @@ import static org.junit.Assert.*;
  */
 public class BookingTest {
 
+    private LocalDateTime testdate;
+    private Address address1;
+    private Customer c;
+    private Event e;
+    private Booking b;
+    private int bookedSeats;
 
-    LocalDateTime testdate = LocalDateTime.of(2016, Month.DECEMBER, 24, 23, 23, 23);
-    Address address1 = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
-
-    Customer c = new Customer("Maren Sandner", address1);
-    Event e = new Event("concert1", testdate, 20.00, 100);
+    @Before
+    public void init() {
+        testdate = LocalDateTime.of(2016, Month.DECEMBER, 24, 23, 23, 23);
+        address1 = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
+        c = new Customer("Maren Sandner", address1);
+        e = new Event("concert1", testdate, 20.00, 100);
+        bookedSeats = 12;
+        b = new Booking(bookedSeats, c, e);
+    }
 
     @Test
     public void shouldInstantiateBooking() {
-        Booking b = new Booking(12, c, e);
+        // done by init
     }
 
     @Test
     public void bookingShouldHaveBookedSeats() {
-        Booking b = new Booking(12, c, e);
-        assertEquals(12, b.getBookedSeats());
+        assertEquals(bookedSeats, b.getBookedSeats());
     }
 
     @Test
     public void bookingShouldHaveCustomer() {
-        Booking b = new Booking(5, c, e);
         assertEquals(c, b.getCustomer());
     }
 
     @Test
     public void bookingShouldHaveEvent() {
-        Booking b = new Booking(5, c, e);
         assertEquals(e, b.getEvent());
     }
 }

@@ -13,45 +13,36 @@ public class CustomerTest {
 
     private Address address1;
     private Customer customer1;
+    private String name;
+    private CustomerFactory cf;
 
-    /*  original refactoring idea but the tests need different customers,
-        since same customers are not allowed
     @Before
     public void init() {
+        cf = new CustomerFactory();
         address1 = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
-        customer1 = new Customer("Maren Sandner", address1);
-    }*/
+        name = "Jane Doe";
+        customer1 = cf.createCustomer(name, address1);
+    }
 
     @Test
     public void shouldInstantiateCustomer() {
-        address1 = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
-        customer1 = new Customer("Maren Sandner", address1);
+        // init does it all.
     }
-
 
     @Test
     public void cantInstantiateCustomersWithSameName() {
-        address1 = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
-        customer1 = new Customer("Test", address1);
         Address address2 = new Address("de", "berlin", 10557, "Willy-Brandt-Straße", 1);
-        Customer customer2 = new Customer("Test", address2);
-        assertNotEquals(address2, customer2.getAddress());
+        Customer customer2 = cf.createCustomer(name, address2);
+        assertNotEquals(customer1, customer2);
     }
 
     @Test
     public void customerShouldHaveName() {
-        address1 = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
-        customer1 = new Customer("Test1", address1);
-        assertEquals("Test1", customer1.getName());
+        assertEquals(name, customer1.getName());
     }
 
     @Test
     public void customerShouldHaveAddress() {
-        address1 = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
-        customer1 = new Customer("Test2", address1);
         assertEquals(address1, customer1.getAddress());
     }
-
-
-
 }
