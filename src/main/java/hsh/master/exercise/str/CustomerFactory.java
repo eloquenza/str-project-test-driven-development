@@ -8,7 +8,11 @@ import java.util.Set;
  */
 public class CustomerFactory {
 
-    private static final Set<String> names = new HashSet<>();
+    private Set<String> names;
+
+    public CustomerFactory() {
+        names = new HashSet<>();
+    }
 
     public Customer createCustomer(String name, Address address) {
         if (names.add(name)) {
