@@ -1,5 +1,6 @@
 package hsh.master.exercise.str;
 
+import hsh.master.exercise.str.entities.Event;
 import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
 import org.junit.Before;
 import org.junit.Test;

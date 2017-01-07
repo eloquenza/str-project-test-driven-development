@@ -1,11 +1,12 @@
-package hsh.master.exercise.str;
+package hsh.master.exercise.str.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Created by Maren on 22.12.2016.
  */
-public class Address {
+public class Address implements Serializable {
 
     private String country; //should be in the format "de", "us" etc.
     private String city;

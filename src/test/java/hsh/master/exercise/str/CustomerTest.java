@@ -3,6 +3,9 @@
  */
 package hsh.master.exercise.str;
 
+import hsh.master.exercise.str.entities.Address;
+import hsh.master.exercise.str.entities.Customer;
+import hsh.master.exercise.str.manager.CustomerManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,11 +17,11 @@ public class CustomerTest {
     private Address address1;
     private Customer customer1;
     private String name;
-    private CustomerFactory cf;
+    private CustomerManager cf;
 
     @Before
     public void init() {
-        cf = new CustomerFactory();
+        cf = new CustomerManager();
         address1 = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
         name = "Jane Doe";
         customer1 = cf.createCustomer(name, address1);

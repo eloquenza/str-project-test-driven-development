@@ -1,5 +1,9 @@
 package hsh.master.exercise.str;
 
+import hsh.master.exercise.str.entities.Address;
+import hsh.master.exercise.str.entities.Booking;
+import hsh.master.exercise.str.entities.Customer;
+import hsh.master.exercise.str.entities.Event;
 import org.junit.Before;
 import org.junit.Test;
 import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
@@ -113,5 +117,16 @@ public class ServicesTest {
         assertEquals(15, saved.getBookedSeats());
         assertNotEquals(b1.getId(), b2.getId());
         assertEquals(b2.getId(), saved.getId());
+    }
+
+    @Test
+    public void entitiesShouldBePersisted() {
+        Booking b = service.bookAEvent(c, e, 5);
+        service.persistAllEntities();
+    }
+
+    @Test
+    public void entitiesCanBeReloaded() {
+        service.loadAllEntities();
     }
 }
