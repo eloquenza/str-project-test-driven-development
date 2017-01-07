@@ -1,5 +1,7 @@
 package hsh.master.exercise.str;
 
+import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -30,6 +32,11 @@ public class Services {
         return e;
     }
 
+    public Booking createNewBooking(Customer c, Event e, int bookedSeats) throws NotEnoughSeatsException {
+        e.reduceAvailableSeats(bookedSeats);
+        return new Booking(bookedSeats, c, e);
+    }
+
     public ArrayList<Event> listAllEvents() {
         for(Event e : events) {
             System.out.println(e.getTitle());
@@ -48,8 +55,7 @@ public class Services {
         return customers;
     }
 
-    public Booking bookAEvent(Customer c, Event e, int bookedSeats) {
-        e.reduceAvailableSeats(bookedSeats);
-        return new Booking(bookedSeats, c, e);
+    public void bookAEvent(Customer c, Event e, int bookedSeats) throws NotEnoughSeatsException {
+        Booking b = createNewBooking(c, e, bookedSeats);
     }
 }
