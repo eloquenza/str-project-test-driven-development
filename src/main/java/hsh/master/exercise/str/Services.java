@@ -8,6 +8,7 @@ import hsh.master.exercise.str.exceptions.CustomerRejectionException;
 import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
 import hsh.master.exercise.str.externalServices.BlacklistImpl;
 import hsh.master.exercise.str.externalServices.Blacklist;
+import hsh.master.exercise.str.externalServices.EMailSender;
 import hsh.master.exercise.str.manager.BookingManager;
 import hsh.master.exercise.str.manager.CustomerManager;
 import hsh.master.exercise.str.manager.EventManager;
@@ -24,16 +25,27 @@ public class Services {
     private EventManager em;
     private BookingManager bm;
     private Blacklist bl;
+    private EMailSender ems;
 
     public Services() {
         cm = new CustomerManager();
         em = new EventManager();
         bm = new BookingManager();
         bl = new BlacklistImpl();
+        ems = new EMailSender() {
+            @Override
+            public boolean sendMail(Customer c, Event e, Booking b) {
+                return false;
+            }
+        };
     }
 
     public void setBlacklist(Blacklist bl) {
         this.bl = bl;
+    }
+
+    public void setEMailSender(EMailSender ems) {
+        this.ems = ems;
     }
 
     public Customer createNewCustomer(String name, Address address) {
@@ -44,8 +56,8 @@ public class Services {
         return c;
     }
 
-    public Event createNewEvent(String title, LocalDateTime dateAndTime, double price, int availableSeats) {
-        return em.createEvent(title, dateAndTime, price, availableSeats);
+    public Event createNewEvent(String title, LocalDateTime dateAndTime, double price, int availableSeats, String orgMail) {
+        return em.createEvent(title, dateAndTime, price, availableSeats, orgMail);
     }
 
     public Booking createNewBooking(Customer c, Event e, int bookedSeats) throws NotEnoughSeatsException {
@@ -68,7 +80,11 @@ public class Services {
         if (bl.isOnBlacklist(c.getName())) {
             throw new CustomerRejectionException(c);
         }
-        return createNewBooking(c, e, bookedSeats);
+        Booking b = createNewBooking(c, e, bookedSeats);
+        if (b.getBookedSeats() > (double) (e.getTotalSeats() / 10)) {
+            ems.sendMail(c, e, b);
+        }
+        return b;
     }
 
     public Booking getBooking(Customer c, Event e) {

@@ -35,7 +35,6 @@ public class BookingManagerTest {
     private Customer c;
     private Event e;
 
-
     @Before
     public void init() {
         bm = new BookingManager();
@@ -47,7 +46,7 @@ public class BookingManagerTest {
         name = "John Smith";
 
         c = cm.createCustomer(name, address);
-        e = em.createEvent("concert", testdate, 20.00, 150);
+        e = em.createEvent("concert", testdate, 20.00, 150, "example@mail.com");
         bm.manageCustomerInMap(c);
         b = bm.createBooking(c, e, 10);
     }

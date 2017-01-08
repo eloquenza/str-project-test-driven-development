@@ -17,13 +17,17 @@ public class Event implements Serializable {
     private LocalDateTime dateAndTime;
     private double price;
     private int availableSeats;
+    private int totalSeats;
+    private String organizerMail;
 
-    public Event(String title, LocalDateTime dateAndTime, double price, int availableSeats) {
+    public Event(String title, LocalDateTime dateAndTime, double price, int availableSeats, String organizerMail) {
         this.id = UUID.randomUUID();
         this.title = title;
         this.dateAndTime = dateAndTime;
         this.price = price;
         this.availableSeats = availableSeats;
+        this.totalSeats = availableSeats;
+        this.organizerMail = organizerMail;
         System.out.println("Event was created");
     }
 
@@ -45,6 +49,14 @@ public class Event implements Serializable {
 
     public int getAvailableSeats() {
         return availableSeats;
+    }
+
+    public int getTotalSeats() {
+        return totalSeats;
+    }
+
+    public String getOrganizerMail() {
+        return organizerMail;
     }
 
     public void reduceAvailableSeats(int r) {
