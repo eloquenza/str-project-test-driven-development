@@ -10,6 +10,9 @@ import org.junit.runners.Suite;
         CustomerTest.class,
         EventTest.class,
         ServicesTest.class,
-        BlacklistTest.class
+        BlacklistTest.class,
+        BookingManagerTest.class,
+        CustomerManagerTest.class,
+        EventManagerTest.class
 })
 public class AllTests {}
