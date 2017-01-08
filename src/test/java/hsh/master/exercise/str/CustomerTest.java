@@ -5,38 +5,27 @@ package hsh.master.exercise.str;
 
 import hsh.master.exercise.str.entities.Address;
 import hsh.master.exercise.str.entities.Customer;
-import hsh.master.exercise.str.manager.CustomerManager;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class CustomerTest {
 
     private Address address1;
     private Customer customer1;
     private String name;
-    private CustomerManager cf;
 
     @Before
     public void init() {
-        cf = new CustomerManager();
         address1 = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
         name = "Jane Doe";
-        customer1 = cf.createCustomer(name, address1);
+        customer1 = new Customer(name, address1);
     }
 
     @Test
     public void shouldInstantiateCustomer() {
         // init does it all.
-    }
-
-    @Test
-    public void cantInstantiateCustomersWithSameName() {
-        Address address2 = new Address("de", "berlin", 10557, "Willy-Brandt-Straße", 1);
-        Customer customer2 = cf.createCustomer(name, address2);
-        assertNotEquals(customer1, customer2);
     }
 
     @Test
