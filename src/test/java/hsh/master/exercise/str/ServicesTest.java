@@ -4,6 +4,7 @@ import hsh.master.exercise.str.entities.Address;
 import hsh.master.exercise.str.entities.Booking;
 import hsh.master.exercise.str.entities.Customer;
 import hsh.master.exercise.str.entities.Event;
+import hsh.master.exercise.str.exceptions.CustomerRejectionException;
 import org.junit.Before;
 import org.junit.Test;
 import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
@@ -87,19 +88,19 @@ public class ServicesTest {
     }
 
     @Test
-    public void shouldCreateBooking() {
+    public void shouldCreateBooking() throws CustomerRejectionException {
         int seatsToBook = eSeats - 5;
         service.bookAEvent(c, e, seatsToBook);
         assertEquals(eSeats - seatsToBook, e.getAvailableSeats());
     }
 
     @Test(expected = NotEnoughSeatsException.class)
-    public void userCannotBookMoreSeatsThanAvailable() {
+    public void userCannotBookMoreSeatsThanAvailable() throws CustomerRejectionException {
         service.bookAEvent(c, e, eSeats+1);
     }
 
     @Test
-    public void shouldFindBookingForSpecificUserAndEvent() {
+    public void shouldFindBookingForSpecificUserAndEvent() throws CustomerRejectionException {
         Booking b = service.bookAEvent(c, e, 5);
         assertEquals(service.getBooking(c, e), b);
     }
@@ -110,7 +111,7 @@ public class ServicesTest {
     }
 
     @Test
-    public void bookingIsMergedWhenUserCreatesNewBookingForSameEvent() {
+    public void bookingIsMergedWhenUserCreatesNewBookingForSameEvent() throws CustomerRejectionException {
         Booking b1 = service.bookAEvent(c, e, 5);
         Booking b2 = service.bookAEvent(c, e, 10);
         Booking saved = service.getBooking(c, e);
@@ -120,7 +121,7 @@ public class ServicesTest {
     }
 
     @Test
-    public void entitiesShouldBePersisted() {
+    public void entitiesShouldBePersisted() throws CustomerRejectionException {
         Booking b = service.bookAEvent(c, e, 5);
         service.persistAllEntities();
     }

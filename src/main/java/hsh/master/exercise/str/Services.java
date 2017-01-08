@@ -4,16 +4,16 @@ import hsh.master.exercise.str.entities.Address;
 import hsh.master.exercise.str.entities.Booking;
 import hsh.master.exercise.str.entities.Customer;
 import hsh.master.exercise.str.entities.Event;
+import hsh.master.exercise.str.exceptions.CustomerRejectionException;
 import hsh.master.exercise.str.exceptions.NotEnoughSeatsException;
+import hsh.master.exercise.str.externalServices.BlacklistImpl;
+import hsh.master.exercise.str.externalServices.Blacklist;
 import hsh.master.exercise.str.manager.BookingManager;
 import hsh.master.exercise.str.manager.CustomerManager;
 import hsh.master.exercise.str.manager.EventManager;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Maren on 23.12.2016.
@@ -23,11 +23,17 @@ public class Services {
     private CustomerManager cm;
     private EventManager em;
     private BookingManager bm;
+    private Blacklist bl;
 
     public Services() {
         cm = new CustomerManager();
         em = new EventManager();
         bm = new BookingManager();
+        bl = new BlacklistImpl();
+    }
+
+    public void setBlacklist(Blacklist bl) {
+        this.bl = bl;
     }
 
     public Customer createNewCustomer(String name, Address address) {
@@ -58,9 +64,11 @@ public class Services {
         return cm.getCustomers();
     }
 
-    public Booking bookAEvent(Customer c, Event e, int bookedSeats) throws NotEnoughSeatsException {
-        Booking b = createNewBooking(c, e, bookedSeats);
-        return b;
+    public Booking bookAEvent(Customer c, Event e, int bookedSeats) throws NotEnoughSeatsException, CustomerRejectionException {
+        if (bl.isOnBlacklist(c.getName())) {
+            throw new CustomerRejectionException(c);
+        }
+        return createNewBooking(c, e, bookedSeats);
     }
 
     public Booking getBooking(Customer c, Event e) {
