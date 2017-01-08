@@ -20,9 +20,9 @@ import java.util.Map;
  */
 public class Services {
 
-    CustomerManager cm;
-    EventManager em;
-    BookingManager bm;
+    private CustomerManager cm;
+    private EventManager em;
+    private BookingManager bm;
 
     public Services() {
         cm = new CustomerManager();
