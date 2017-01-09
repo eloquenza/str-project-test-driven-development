@@ -15,8 +15,8 @@ public class EventManager extends AbstractManager {
         events = new ArrayList<>();
     }
 
-    public Event createEvent(String title, LocalDateTime dateAndTime, double price, int availableSeats) {
-        Event e = new Event(title, dateAndTime, price, availableSeats);
+    public Event createEvent(String title, LocalDateTime dateAndTime, double price, int availableSeats, String orgMail) {
+        Event e = new Event(title, dateAndTime, price, availableSeats, orgMail);
         events.add(e);
         return e;
     }

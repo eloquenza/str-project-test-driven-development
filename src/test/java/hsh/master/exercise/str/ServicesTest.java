@@ -30,6 +30,7 @@ public class ServicesTest {
     private String eName;
     private int eSeats;
     private double ePrice;
+    private String orgMail;
     private Event e;
     private LocalDateTime testdate;
 
@@ -46,7 +47,8 @@ public class ServicesTest {
         eName = "Testevent";
         eSeats = 100;
         ePrice = 10.00;
-        e = service.createNewEvent(eName, testdate, ePrice, eSeats);
+        orgMail = "example@mail.com";
+        e = service.createNewEvent(eName, testdate, ePrice, eSeats, orgMail);
     }
 
     @Test
@@ -62,9 +64,9 @@ public class ServicesTest {
 
     @Test
     public void shouldListAllEvents() {
-        Event e1 = service.createNewEvent("Konzert1", testdate, 1.5, 20);
-        Event e2 = service.createNewEvent("Konzert2", testdate, 15, 50);
-        Event e3 = service.createNewEvent("Konzert3", testdate, 10.5, 52);
+        Event e1 = service.createNewEvent("Konzert1", testdate, 1.5, 20, orgMail);
+        Event e2 = service.createNewEvent("Konzert2", testdate, 15, 50, orgMail);
+        Event e3 = service.createNewEvent("Konzert3", testdate, 10.5, 52, orgMail);
 
         ArrayList<Event> testevents = new ArrayList<>(Arrays.asList(e, e1, e2, e3));
 

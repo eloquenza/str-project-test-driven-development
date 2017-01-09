@@ -20,6 +20,7 @@ public class EventManagerTest {
     private String eName;
     private int ePrice;
     private int eSeats;
+    private String orgMail;
 
     private Event e;
 
@@ -30,8 +31,9 @@ public class EventManagerTest {
         eName = "The Bangles";
         ePrice = 100;
         eSeats = 9000;
+        orgMail = "example@mail.com";
 
-        e = em.createEvent(eName, eDate, ePrice, eSeats);
+        e = em.createEvent(eName, eDate, ePrice, eSeats, orgMail);
     }
 
     @Test
@@ -42,6 +44,8 @@ public class EventManagerTest {
         assertEquals(eDate, e.getDateAndTime());
         assertEquals(ePrice, e.getPrice(), 0);
         assertEquals(eSeats, e.getAvailableSeats());
+        assertEquals(eSeats, e.getTotalSeats());
+        assertEquals(orgMail, e.getOrganizerMail());
     }
 
 }

@@ -19,7 +19,7 @@ public class EventTest {
     private String eventName;
     private double eventPrice;
     private int eventSeats;
-
+    private String orgMail;
 
     @Before
     public void init() {
@@ -27,7 +27,8 @@ public class EventTest {
         eventName = "concert1";
         eventPrice = 20.00;
         eventSeats = 100;
-        e = new Event(eventName, eventDate, eventPrice, eventSeats);
+        orgMail = "example@mail.com";
+        e = new Event(eventName, eventDate, eventPrice, eventSeats, orgMail);
     }
 
     @Test
@@ -53,6 +54,16 @@ public class EventTest {
     @Test
     public void eventShouldAvailableSeats() {
         assertEquals(eventSeats, e.getAvailableSeats());
+    }
+
+    @Test
+    public void eventShouldHaveTotalSeats() {
+        assertEquals(eventSeats, e.getTotalSeats());
+    }
+
+    @Test
+    public void eventShouldHaveOrganizerMail() {
+        assertEquals(orgMail, e.getOrganizerMail());
     }
 
     @Test

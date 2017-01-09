@@ -29,7 +29,7 @@ public class BookingTest {
         testdate = LocalDateTime.of(2016, Month.DECEMBER, 24, 23, 23, 23);
         address1 = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
         c = new Customer("Maren Sandner", address1);
-        e = new Event("concert1", testdate, 20.00, 100);
+        e = new Event("concert1", testdate, 20.00, 100, "example@mail.com");
         bookedSeats = 12;
         b = new Booking(bookedSeats, c, e);
     }

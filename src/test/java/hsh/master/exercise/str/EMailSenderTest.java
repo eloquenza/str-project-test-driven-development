@@ -5,7 +5,7 @@ import hsh.master.exercise.str.entities.Booking;
 import hsh.master.exercise.str.entities.Customer;
 import hsh.master.exercise.str.entities.Event;
 import hsh.master.exercise.str.exceptions.CustomerRejectionException;
-import hsh.master.exercise.str.externalServices.Blacklist;
+import hsh.master.exercise.str.externalServices.EMailSender;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,15 +16,17 @@ import org.mockito.junit.MockitoRule;
 import java.time.LocalDateTime;
 import java.time.Month;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class BlacklistTest {
+public class EMailSenderTest {
 
-    @Rule public MockitoRule mockrule = MockitoJUnit.rule();
-    @Mock private Blacklist bl;
+    @Rule
+    public MockitoRule mockrule = MockitoJUnit.rule();
+    @Mock
+    private EMailSender ems;
 
     private Address a;
     private Customer c;
@@ -41,7 +43,7 @@ public class BlacklistTest {
     @Before
     public void init() {
         service = new Services();
-        service.setBlacklist(bl);
+        service.setEMailSender(ems);
 
         a = new Address("de", "hannover", 30459, "Ricklinger Stadtweg", 120);
         c = service.createNewCustomer("Maren Sandner", a);
@@ -54,19 +56,19 @@ public class BlacklistTest {
         e = service.createNewEvent(eventName, eventDate, eventPrice, eventSeats, orgMail);
     }
 
-    @Test(expected = CustomerRejectionException.class)
-    public void shouldRejectBookingWhenCustomerIsOnBlacklist() throws CustomerRejectionException {
-        when(bl.isOnBlacklist(anyString())).thenReturn(true);
-        Booking b = service.bookAEvent(c, e, 10);
-        verify(bl).isOnBlacklist(c.getName());
-        assertNull(b);
+    @Test
+    public void mailShouldBeSentIfCustomerBooksMoreThanTenPercentOfTotalSeats() throws CustomerRejectionException {
+        when(ems.sendMail(any(Customer.class), any(Event.class), any(Booking.class))).thenReturn(true);
+        // 20 seats are 20% of 100 seats, should trigger an email
+        Booking b = service.bookAEvent(c, e, 20);
+        verify(ems).sendMail(c, e, b);
     }
 
     @Test
-    public void shouldAllowBookingWhenCustomerIsNotOnBlacklist() throws CustomerRejectionException {
-        when(bl.isOnBlacklist(anyString())).thenReturn(false);
-        Booking b = service.bookAEvent(c, e, 10);
-        verify(bl).isOnBlacklist(c.getName());
-        assertNotNull(b);
+    public void MailShouldNotBeSentIfBookedSeatsAreUnder10Percent() throws CustomerRejectionException {
+        when(ems.sendMail(any(Customer.class), any(Event.class), any(Booking.class))).thenReturn(true);
+        // 9 seats are 9%, should NOT trigger
+        Booking b = service.bookAEvent(c, e, 9);
+        verify(ems, never()).sendMail(c, e, b);
     }
 }
